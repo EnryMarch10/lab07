@@ -1,5 +1,4 @@
 package it.unibo.functional;
-
 import it.unibo.functional.api.Function;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ public final class Transformers {
      * the input otherwise, obtaining as output {@code [1, 9, 25]}.
      *
      * @param base the elements on which to operate
-     * @param transformer the {@link Function} to apply to each element. It must transform the elements into a
+     * @param function the {@link Function} to apply to each element. It must transform the elements into a
      *     (possibly empty) collection of other elements.
      * @return A "flattened" list of the produced elements
      * @param <I> input elements type
@@ -54,7 +53,12 @@ public final class Transformers {
      * @param <O> output elements type
      */
     public static <I, O> List<O> transform(final Iterable<I> base, final Function<I, O> transformer) {
-        return null;
+        return flattenTransform(base, new Function<I,Collection<? extends O>>() {
+            @Override
+            public Collection<? extends O> call(I input) {
+                return List.of(transformer.call(input));
+            }
+        });
     }
 
     /**
@@ -70,7 +74,7 @@ public final class Transformers {
      * @param <I> type of the collection elements
      */
     public static <I> List<? extends I> flatten(final Iterable<? extends Collection<? extends I>> base) {
-        return null;
+        return flattenTransform(base, Function.identity());
     }
 
     /**
@@ -87,7 +91,12 @@ public final class Transformers {
      * @param <I> elements type
      */
     public static <I> List<I> select(final Iterable<I> base, final Function<I, Boolean> test) {
-        return null;
+        return flattenTransform(base, new Function<I, Collection<? extends I>>() {
+            @Override
+            public Collection<? extends I> call(I input) {
+                return test.call(input) ? List.of(input) : List.of();
+            }
+        });
     }
 
     /**
@@ -103,6 +112,11 @@ public final class Transformers {
      * @param <I> elements type
      */
     public static <I> List<I> reject(final Iterable<I> base, final Function<I, Boolean> test) {
-        return null;
+        return select(base, new Function<I,Boolean>() {
+            @Override
+            public Boolean call(I input) {
+                return !test.call(input);
+            }
+        });
     }
 }
