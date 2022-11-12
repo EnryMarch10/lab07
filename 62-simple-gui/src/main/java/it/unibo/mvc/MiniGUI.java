@@ -2,6 +2,8 @@ package it.unibo.mvc;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -51,9 +53,10 @@ public class MiniGUI {
         write.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(final ActionEvent e) {
-                System.out.println(randomGenerator.nextInt());
+                int extracted = randomGenerator.nextInt();
+                System.out.println(extracted);
                 // My implementation
-                ((JTextField)frame.getContentPane().getComponents()[1]).setText(Integer.valueOf(randomGenerator.nextInt()).toString());
+                ((JTextField)frame.getContentPane().getComponents()[1]).setText(Integer.valueOf(extracted).toString());
                 // endru
             }
         });
