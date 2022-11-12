@@ -54,7 +54,7 @@ public class MiniGUI {
                 System.out.println(randomGenerator.nextInt());
                 // My implementation
                 ((JTextField)frame.getContentPane().getComponents()[1]).setText(Integer.valueOf(randomGenerator.nextInt()).toString());
-                // end
+                // endru
             }
         });
     }
